@@ -1,16 +1,28 @@
 import pygame
 from pygame.locals import *
 
+import time
+
 from get_points import *
 
 height = 1000
 width = 800
 
 pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode([width, height], pygame.RESIZABLE)
+
+font = pygame.font.SysFont("Arial", 20)
 
 grid_size = 2
 grid_color = (20, 20, 20)  # rgb
+
+start_time = time.time()
+
+result = get_points(grid_size)
+
+end_time = time.time()
+result_time = end_time-start_time
 
 
 def draw():
@@ -38,10 +50,17 @@ def draw():
         pygame.draw.line(screen, grid_color, (padding_width, i*grid_space +
                          padding_height), (width - padding_width, i*grid_space + padding_height))
 
-    for point in best_leaf.points:
+    for point in result.points:
         x, y = point
         pygame.draw.circle(screen, (255, 0, 0),
                            (x*grid_space + padding_width + 1, y*grid_space + padding_height + 1), 5)
+
+    txt = f"Temps de calcul : {result_time:.3f}s"
+    width_text, height_text = font.size(txt)
+    txt_render = font.render(txt, True, grid_color)
+    screen.blit(txt_render, (width/2 - width_text/2,
+                height - padding_height/2 - height_text/2))
+
     pygame.display.flip()
 
 
