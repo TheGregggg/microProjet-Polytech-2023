@@ -17,6 +17,7 @@ font = pygame.font.SysFont("Arial", 20)
 
 grid_size = 4
 grid_color = (20, 20, 20)  # rgb
+draw_lines = False
 
 start_time = time.time()
 
@@ -50,6 +51,21 @@ def draw():
     for i in range(grid_size+1):
         pygame.draw.line(screen, grid_color, (padding_width, i*grid_space +
                          padding_height), (width - padding_width, i*grid_space + padding_height))
+
+    if draw_lines:
+
+        for droite in result.banned_lines:
+            if math.isinf(droite[0]):
+                x = droite[1]
+                pygame.draw.line(screen, (0, 255, 0), (padding_width + x*grid_space,
+                                                       padding_height), (padding_width + x*grid_space, height - padding_height))
+
+            else:
+                y_start = droite[1]
+                y_end = droite[0]*grid_size + droite[1]
+
+                pygame.draw.line(screen, (0, 255, 0), (padding_width, padding_height + y_start *
+                                                       grid_space), (width - padding_width, padding_height + y_end*grid_space))
 
     for point in result.points:
         x, y = point
@@ -106,7 +122,12 @@ grid 4 => 30s
 
 fix optimisation symetrie 
 grid 2 => 0.002s
-grid 3 => 0.01s
-grid 4 => 10.5s
+grid 3 => 0.15s
+grid 4 => 98s
+
+new sys 
+grid 2 => 0.002s
+grid 3 => 0.15s
+grid 4 => 101s
 
 """

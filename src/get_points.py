@@ -94,7 +94,7 @@ def generate_children(node: Node):
 
                 pass_rotation_tests = True
                 rotation = child.points
-                for i in range(3):
+                for a in range(3):
                     rotation = rotating_points(node.size, rotation)
                     rotation = sorted(
                         rotation, key=lambda tup: (tup[0], tup[1]))
@@ -161,10 +161,10 @@ def get_points(grid_size: int) -> list:
     return best_leaf
 
 
-result = get_points(4)
-print(result.points)
-print(f"You generate {nb_generation} childs")
-print(nb_check_pos_point)
+# result = get_points(4)
+# print(result.points)
+# print(f"You generate {nb_generation} childs")
+# print(nb_check_pos_point)
 
 # before caching : grid 2 => 4842 generations
 # after caching : grid 2 => 388 generations
