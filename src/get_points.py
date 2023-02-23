@@ -42,9 +42,11 @@ class Node():
 already_done_node = []
 nb_generation = 0
 
+nb_check_pos_point = 0
+
 
 def generate_children(node: Node):
-    global nb_generation
+    global nb_generation, nb_check_pos_point
     nb_generation += 1
     for i in range(node.size + 1):
         for j in range(node.size + 1):
@@ -54,6 +56,7 @@ def generate_children(node: Node):
             check_invalide = 0
             for banned_line in node.banned_lines:
                 # regarde si point est sur la droite pour chaque droite
+                nb_check_pos_point += 1
                 if math.isinf(banned_line[0]):
                     if i == banned_line[1]:
                         check_invalide += 1
@@ -93,16 +96,27 @@ def generate_children(node: Node):
                 rotation = child.points
                 for i in range(3):
                     rotation = rotating_points(node.size, rotation)
+                    rotation = sorted(
+                        rotation, key=lambda tup: (tup[0], tup[1]))
                     if rotation in already_done_node:
                         pass_rotation_tests = False
                         break
+
                 if not pass_rotation_tests:
                     continue
 
-                if symetrie_horizontal(node.size, child.points) in already_done_node:
+                sym_hori = symetrie_horizontal(node.size, child.points)
+                sym_hori = sorted(
+                    sym_hori, key=lambda tup: (tup[0], tup[1]))
+
+                if sym_hori in already_done_node:
                     continue
 
-                if symetrie_vertical(node.size, child.points) in already_done_node:
+                sym_vert = symetrie_vertical(node.size, child.points)
+                sym_vert = sorted(
+                    sym_vert, key=lambda tup: (tup[0], tup[1]))
+
+                if sym_vert in already_done_node:
                     continue
 
                 already_done_node.append(child.points)
@@ -128,10 +142,16 @@ def get_points(grid_size: int) -> list:
     global nb_generation
     nb_generation = 0
 
+    print("generating childs")
+
     root = Node(size=grid_size)
     generate_children(root)
 
+    print("finish generating childs")
+    print("getting leafs")
     leafs = parcours_largeur(root)
+
+    print("getting best leaf")
 
     best_leaf = leafs[0]
     for leaf in leafs:
@@ -141,10 +161,12 @@ def get_points(grid_size: int) -> list:
     return best_leaf
 
 
-# result = get_points(2)
-# print(result.points)
-# print(f"You generate {nb_generation} childs")
+result = get_points(4)
+print(result.points)
+print(f"You generate {nb_generation} childs")
+print(nb_check_pos_point)
 
-# before caching : gridSize = 2 => 4842 generations
-# after caching : gridSize = 2 => 388 generations
-# after symetrie and rotation checking : gridsize = 2 => 96 generations
+# before caching : grid 2 => 4842 generations
+# after caching : grid 2 => 388 generations
+# after symetrie and rotation checking : grid = 2 => 96 generations
+# after fixing precedent implementation : grid 2 => 54 generations | grid 3 => 668 generations | grid 4 => 12115 generations

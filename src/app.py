@@ -15,7 +15,7 @@ screen = pygame.display.set_mode([width, height], pygame.RESIZABLE)
 
 font = pygame.font.SysFont("Arial", 20)
 
-grid_size = 3
+grid_size = 4
 grid_color = (20, 20, 20)  # rgb
 
 start_time = time.time()
@@ -93,7 +93,7 @@ while running:
 
 pygame.quit()
 
-"""
+""" benchmark on laptop
 optimisation cache
 grid 2 => 0.010s
 grid 3 => 42s
@@ -101,7 +101,12 @@ grid 3 => 42s
 
 optimisation symetrie check et rotations
 grid 2 => 0.002s
-grid 3 => 
+grid 3 => 0.1s
+grid 4 => 30s
 
+fix optimisation symetrie 
+grid 2 => 0.002s
+grid 3 => 0.01s
+grid 4 => 10.5s
 
 """
