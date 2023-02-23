@@ -2,8 +2,14 @@ from typing import Any
 import math
 
 
+def rotating_points(grid_size, points):
+    for point in points:
+        point[0] = point[1]
+        point[1] = grid_size - point[1]
+
+
 class Node():
-    def __init__(self, points=[], banned_lines: list[y] = [], size=10):
+    def __init__(self, points=[], banned_lines: list = [], size=10):
         self.points = points
 
         # list of tuple (a,b) or (0,0,x) if its a vertical line
