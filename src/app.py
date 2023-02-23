@@ -10,11 +10,12 @@ width = 800
 
 pygame.init()
 pygame.font.init()
+
 screen = pygame.display.set_mode([width, height], pygame.RESIZABLE)
 
 font = pygame.font.SysFont("Arial", 20)
 
-grid_size = 2
+grid_size = 3
 grid_color = (20, 20, 20)  # rgb
 
 start_time = time.time()
@@ -66,8 +67,12 @@ def draw():
 
 draw()
 
+input_repeat_time = 0
+
+clock = pygame.time.Clock()
 running = True
 while running:
+    delta_time = clock.tick(60)
     for event in pygame.event.get():
         if event.type == VIDEORESIZE:
             height = event.h
@@ -78,5 +83,25 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    pressed = pygame.key.get_pressed()
+    if pressed[pygame.K_SPACE] and input_repeat_time < 0:
+        input_repeat_time = 0.2*1000
+        result.points = rotating_points(grid_size, result.points)
+        draw()
+
+    input_repeat_time -= delta_time
 
 pygame.quit()
+
+"""
+optimisation cache
+grid 2 => 0.010s
+grid 3 => 42s
+
+
+optimisation symetrie check et rotations
+grid 2 => 0.002s
+grid 3 => 
+
+
+"""

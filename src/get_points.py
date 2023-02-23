@@ -3,9 +3,27 @@ import math
 
 
 def rotating_points(grid_size, points):
+    points_to_return = []
     for point in points:
-        point[0] = point[1]
-        point[1] = grid_size - point[1]
+        new_point = (grid_size-point[1], point[0])
+        points_to_return.append(new_point)
+    return points_to_return
+
+
+def symetrie_horizontal(grid_size, points):
+    points_to_return = []
+    for point in points:
+        new_point = (grid_size - point[0], point[1])
+        points_to_return.append(new_point)
+    return points_to_return
+
+
+def symetrie_vertical(grid_size, points):
+    points_to_return = []
+    for point in points:
+        new_point = (point[0], grid_size - point[1])
+        points_to_return.append(new_point)
+    return points_to_return
 
 
 class Node():
@@ -68,10 +86,27 @@ def generate_children(node: Node):
                     child.banned_lines, key=lambda tup: (tup[0], tup[1]))
 
                 node.childrens.append(child)
-                if (child.points, child.banned_lines) not in already_done_node:
-                    already_done_node.append(
-                        (child.points, child.banned_lines))
-                    generate_children(child)
+                if child.points in already_done_node:
+                    continue
+
+                pass_rotation_tests = True
+                rotation = child.points
+                for i in range(3):
+                    rotation = rotating_points(node.size, rotation)
+                    if rotation in already_done_node:
+                        pass_rotation_tests = False
+                        break
+                if not pass_rotation_tests:
+                    continue
+
+                if symetrie_horizontal(node.size, child.points) in already_done_node:
+                    continue
+
+                if symetrie_vertical(node.size, child.points) in already_done_node:
+                    continue
+
+                already_done_node.append(child.points)
+                generate_children(child)
 
 
 def parcours_largeur(noeud):
@@ -112,3 +147,4 @@ def get_points(grid_size: int) -> list:
 
 # before caching : gridSize = 2 => 4842 generations
 # after caching : gridSize = 2 => 388 generations
+# after symetrie and rotation checking : gridsize = 2 => 96 generations
