@@ -161,10 +161,10 @@ def get_points(grid_size: int) -> list:
     return best_leaf
 
 
-# result = get_points(4)
-# print(result.points)
-# print(f"You generate {nb_generation} childs")
-# print(nb_check_pos_point)
+result = get_points(3)
+print(result.points)
+print(f"You generate {nb_generation} childs")
+print(nb_check_pos_point)
 
 # before caching : grid 2 => 4842 generations
 # after caching : grid 2 => 388 generations

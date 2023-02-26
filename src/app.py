@@ -3,7 +3,7 @@ from pygame.locals import *
 
 import time
 
-from get_points import *
+from get_points_3 import *
 
 height = 1000
 width = 800
@@ -15,7 +15,7 @@ screen = pygame.display.set_mode([width, height], pygame.RESIZABLE)
 
 font = pygame.font.SysFont("Arial", 20)
 
-grid_size = 4
+grid_size = 3
 grid_color = (20, 20, 20)  # rgb
 draw_lines = False
 
@@ -125,9 +125,13 @@ grid 2 => 0.002s
 grid 3 => 0.15s
 grid 4 => 98s
 
-new sys 
+sys 2
 grid 2 => 0.002s
 grid 3 => 0.15s
 grid 4 => 101s
 
+
+sys 3
+grid 2 => 0.006s
+grid 3 => 0.418s
 """

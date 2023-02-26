@@ -53,7 +53,9 @@ def generate_children(node: Node):
 
         allowed_y = [*range(node.size + 1)]
 
-        for banned_line in node.banned_lines:
+        # parcours par sense inverse
+        for i_banned_line in range(len(node.banned_lines)):
+            banned_line = node.banned_lines[-i_banned_line]
             if math.isinf(banned_line[0]):
                 if i == banned_line[1]:
                     allowed_y = []
@@ -62,12 +64,12 @@ def generate_children(node: Node):
                 y_to_remove = int(banned_line[0]*i + banned_line[1])
                 if y_to_remove in allowed_y:
                     allowed_y.remove(y_to_remove)
+            nb_check_pos_point += 1
 
         for j in allowed_y:
             if (i, j) in node.points:
                 continue
 
-            nb_check_pos_point += 1
             # generations des nouvelles droites interdites
             new_ban_lines = []
             for point in node.points:
@@ -80,6 +82,7 @@ def generate_children(node: Node):
                     a = int(delta_y/delta_x)
                     b = int(j - a*i)
                     new_ban_lines.append((a, b))
+                nb_check_pos_point += 1
 
             child = Node([value for value in node.points],
                          [value for value in node.banned_lines], size=node.size)
@@ -165,7 +168,7 @@ def get_points(grid_size: int) -> list:
 
 
 if __name__ == "__main__":
-    result = get_points(4)
+    result = get_points(2)
     print(result.points)
     print(f"You generate {nb_generation} childs")
     print(nb_check_pos_point)
