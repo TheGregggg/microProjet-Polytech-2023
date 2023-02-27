@@ -159,12 +159,14 @@ def get_points(grid_size: int) -> list:
 
     print("getting best leaf")
 
-    best_leaf = leafs[0]
+    best_leafs = [leafs[0]]
     for leaf in leafs:
-        if len(leaf.points) > len(best_leaf.points):
-            best_leaf = leaf
+        if len(leaf.points) > len(best_leafs[0].points):
+            best_leafs = [leaf]
+        elif(len(leaf.points) == len(best_leafs[0].points)):
+            best_leafs.append(leaf)
 
-    return best_leaf
+    return best_leafs
 
 
 if __name__ == "__main__":
