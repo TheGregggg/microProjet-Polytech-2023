@@ -5,7 +5,7 @@ import time
 
 from get_points_3 import *
 
-height = 1000
+height = 600
 width = 800
 
 pygame.init()
