@@ -3,7 +3,7 @@ from pygame.locals import *
 
 import time
 
-from get_points_2 import *
+from get_points_1 import *
 
 height = 600
 width = 800
