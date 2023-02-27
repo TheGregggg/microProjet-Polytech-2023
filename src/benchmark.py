@@ -1,4 +1,4 @@
-import get_points
+import get_points_1
 import get_points_2
 import get_points_3
 import get_points_4
