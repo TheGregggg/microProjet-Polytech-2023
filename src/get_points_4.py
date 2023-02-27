@@ -86,7 +86,7 @@ def generate_children(node: Node):
             child.points = sorted(
                 child.points, key=lambda tup: (tup[0], tup[1]))
 
-            #
+            node.add_child(child)
             if child.points in already_done_node:
                 continue
 
@@ -117,7 +117,6 @@ def generate_children(node: Node):
             if sym_vert in already_done_node:
                 continue
 
-            node.add_child(child)
             already_done_node.append(child.points)
             generate_children(child)
 
@@ -143,15 +142,16 @@ def get_points(grid_size: int) -> list:
 
     print("generating childs")
 
-    base_grid = []
-    for i in range(grid_size + 1):
-        line = []
-        for y in range(grid_size + 1):
-            line.append(y)
-        base_grid.append(line)
+    for grid_size_to_use in range(1, grid_size+1):
+        base_grid = []
+        for i in range(grid_size_to_use + 1):
+            line = []
+            for y in range(grid_size_to_use + 1):
+                line.append(y)
+            base_grid.append(line)
 
-    root = Node(size=grid_size, grid=base_grid)
-    generate_children(root)
+        root = Node(size=grid_size_to_use, grid=base_grid)
+        generate_children(root)
 
     print("finish generating childs")
     print("getting leafs")
@@ -171,7 +171,7 @@ def get_points(grid_size: int) -> list:
 
 
 if __name__ == "__main__":
-    result = get_points(3)
+    result = get_points(4)
     print(result.points)
     print(f"You generate {nb_generation} childs")
     print(nb_check_pos_point)

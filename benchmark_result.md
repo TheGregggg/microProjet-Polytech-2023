@@ -12,6 +12,8 @@ Each module is tested 10 times on each size
 
 - The third is the same but with another implementation.
 
+- The fourth is an optimisation of the third
+
 ## Results
 
 Benchmark for get_points

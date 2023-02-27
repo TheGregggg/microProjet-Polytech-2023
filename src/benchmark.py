@@ -1,6 +1,7 @@
 import get_points
 import get_points_2
 import get_points_3
+import get_points_4
 
 import time
 
@@ -37,5 +38,5 @@ def run_benchmarks(list_modules, list_sizes, repeats=1):
 
 if __name__ == "__main__":
     results = run_benchmarks(
-        [get_points, get_points_2, get_points_3], [2, 3], 10)
+        [get_points_4, get_points_3], [4], 10)
     print(results)
