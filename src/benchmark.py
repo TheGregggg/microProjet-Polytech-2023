@@ -38,5 +38,5 @@ def run_benchmarks(list_modules, list_sizes, repeats=1):
 
 if __name__ == "__main__":
     results = run_benchmarks(
-        [get_points_4, get_points_3], [4], 10)
+        [get_points_1, get_points_2, get_points_3, get_points_4], [3], 10)
     print(results)

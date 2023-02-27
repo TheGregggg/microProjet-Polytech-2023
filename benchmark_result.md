@@ -1,4 +1,4 @@
-# Benchmark result
+# Benchmark results
 
 Results are generated from benchmark.py
 
@@ -37,3 +37,29 @@ Benchmark for get_points_3
 ## Analyse
 
 We can see that in average, the third version of the algorithm is slightly faster.
+
+## Second run with algo 4
+
+Benchmark for get_points_1
+| grid size | time |
+|:---------:|:------:|
+| 3 | 0.182s |
+
+Benchmark for get_points_2
+| grid size | time |
+|:---------:|:------:|
+| 3 | 0.151s |
+
+Benchmark for get_points_3
+| grid size | time |
+|:---------:|:------:|
+| 3 | 0.135s |
+
+Benchmark for get_points_4
+| grid size | time |
+|:---------:|:------:|
+| 3 | 0.085s |
+
+## Analyse
+
+The fourth algorithm is the best.

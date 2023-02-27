@@ -3,19 +3,10 @@ from pygame.locals import *
 
 import time
 
-from get_points_3 import *
+from get_points_4 import *
 
-height = 600
-width = 800
 
-pygame.init()
-pygame.font.init()
-
-screen = pygame.display.set_mode([width, height], pygame.RESIZABLE)
-
-font = pygame.font.SysFont("Arial", 20)
-
-grid_size = 4
+grid_size = 5
 grid_color = (20, 20, 20)  # rgb
 draw_lines = False
 
@@ -26,6 +17,16 @@ result_indice = 0
 
 end_time = time.time()
 result_time = end_time-start_time
+
+height = 600
+width = 800
+
+pygame.init()
+pygame.font.init()
+
+screen = pygame.display.set_mode([width, height], pygame.RESIZABLE)
+
+font = pygame.font.SysFont("Arial", 20)
 
 
 def draw():
