@@ -3,7 +3,7 @@ from pygame.locals import *
 
 import time
 
-from get_points_1 import *
+from get_points_3 import *
 
 height = 600
 width = 800
@@ -55,7 +55,7 @@ def draw():
 
     if draw_lines:
 
-        for droite in result.banned_lines:
+        for droite in results[result_indice].banned_lines:
             if math.isinf(droite[0]):
                 x = droite[1]
                 pygame.draw.line(screen, (0, 255, 0), (padding_width + x*grid_space,

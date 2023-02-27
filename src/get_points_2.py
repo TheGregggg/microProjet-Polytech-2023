@@ -79,8 +79,8 @@ def generate_children(node: Node):
                 if delta_x == 0:
                     new_ban_lines.append((math.inf, i))
                 else:
-                    a = int(delta_y/delta_x)
-                    b = int(j - a*i)
+                    a = delta_y/delta_x
+                    b = j - a*i
                     new_ban_lines.append((a, b))
                 nb_check_pos_point += 1
 

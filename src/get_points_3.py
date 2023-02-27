@@ -68,8 +68,8 @@ def generate_children(node: Node):
                     new_grid[i] = []  # remove vertical line
                     nb_check_pos_point += 1
                 else:
-                    a = int(delta_y/delta_x)
-                    b = int(j - a*i)
+                    a = delta_y/delta_x
+                    b = j - a*i
                     for x in range(node.size + 1):
                         y_to_remove = int(a*x + b)
                         if y_to_remove in new_grid[x]:

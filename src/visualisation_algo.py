@@ -153,14 +153,14 @@ def generate_children(node: Node):
     draw(node)
 
     pygame.event.clear()
-    a = True
-    while a:
+    wait_input = True
+    while wait_input:
         event = pygame.event.wait()
         if event.type == QUIT:
             pygame.quit()
         elif event.type == KEYDOWN:
             if event.key == K_SPACE:
-                a = False
+                wait_input = False
 
     for i in range(node.size + 1):
 
@@ -177,7 +177,6 @@ def generate_children(node: Node):
                     allowed_y.remove(y_to_remove)
 
         for j in allowed_y:
-            print(f"GEN {node.generation} | DOING J : {j} with I still : {i}")
             if (i, j) in node.points:
                 continue
 
@@ -190,8 +189,8 @@ def generate_children(node: Node):
                 if delta_x == 0:
                     new_ban_lines.append((math.inf, i))
                 else:
-                    a = int(delta_y/delta_x)
-                    b = int(j - a*i)
+                    a = delta_y/delta_x
+                    b = j - a*i
                     new_ban_lines.append((a, b))
 
             child = Node([value for value in node.points],
@@ -210,7 +209,7 @@ def generate_children(node: Node):
 
             pass_rotation_tests = True
             rotation = child.points
-            for a in range(3):
+            for rot in range(3):
                 rotation = rotating_points(node.size, rotation)
                 rotation = sorted(
                     rotation, key=lambda tup: (tup[0], tup[1]))
@@ -237,8 +236,6 @@ def generate_children(node: Node):
 
             already_done_node.append(child.points)
             generate_children(child)
-        print(f"GEN {node.generation} | Finish J, I go up")
-    print(f"GEN {node.generation} | Finish I")
 
 
 def parcours_largeur(noeud):

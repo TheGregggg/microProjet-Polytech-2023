@@ -68,11 +68,11 @@ def generate_children(node: Node):
                     new_grid[i] = []  # remove vertical line
                     nb_check_pos_point += 1
                 else:
-                    a = int(delta_y/delta_x)
-                    b = int(j - a*i)
+                    a = delta_y/delta_x
+                    b = j - a*i
                     for x in range(node.size + 1):
-                        y_to_remove = int(a*x + b)
-                        if y_to_remove in new_grid[x]:
+                        y_to_remove = a*x + b
+                        if y_to_remove == int(y_to_remove) and y_to_remove in new_grid[x]:
                             new_grid[x].remove(y_to_remove)
                         nb_check_pos_point += 1
 
@@ -86,7 +86,6 @@ def generate_children(node: Node):
             child.points = sorted(
                 child.points, key=lambda tup: (tup[0], tup[1]))
 
-            node.add_child(child)
             if child.points in already_done_node:
                 continue
 
@@ -117,6 +116,7 @@ def generate_children(node: Node):
             if sym_vert in already_done_node:
                 continue
 
+            node.add_child(child)
             already_done_node.append(child.points)
             generate_children(child)
 

@@ -74,8 +74,8 @@ def generate_children(node: Node):
                     if delta_x == 0:
                         new_ban_lines.append((math.inf, i))
                     else:
-                        a = int(delta_y/delta_x)
-                        b = int(j - a*i)
+                        a = delta_y/delta_x
+                        b = j - a*i
                         new_ban_lines.append((a, b))
 
                 child = Node([value for value in node.points],
@@ -94,7 +94,7 @@ def generate_children(node: Node):
 
                 pass_rotation_tests = True
                 rotation = child.points
-                for a in range(3):
+                for rot in range(3):
                     rotation = rotating_points(node.size, rotation)
                     rotation = sorted(
                         rotation, key=lambda tup: (tup[0], tup[1]))
