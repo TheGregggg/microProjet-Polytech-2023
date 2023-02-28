@@ -6,7 +6,7 @@ import time
 from get_points_5 import *
 
 
-grid_size = 3
+grid_size = 4
 grid_color = (20, 20, 20)  # rgb
 draw_lines = False
 

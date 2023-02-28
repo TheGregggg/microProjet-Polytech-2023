@@ -1,6 +1,28 @@
-from typing import Any
-import math
-import copy
+from multiprocessing import Process
+from multiprocessing import Queue
+from queue import Empty
+from time import sleep
+
+
+def consumer(queue):
+    print('Consumer: Running', flush=True)
+    while True:
+        # get a unit of work
+        try_before_stop = 0
+        try:
+            node = queue.get(block=False)
+            generate_children(queue, node)
+            try_before_stop = 0
+        except Empty:
+            print('Consumer: got nothing, waiting a while...', flush=True)
+            sleep(0.1)
+            try_before_stop += 1
+            if try_before_stop == 10:
+                break
+            continue
+
+    # all done
+    print('Consumer: Done', flush=True)
 
 
 def rotating_points(grid_size, points):
@@ -47,7 +69,7 @@ nb_generation = 0
 nb_check_pos_point = 0
 
 
-def generate_children(node: Node):
+def generate_children(queue, node: Node):
     global nb_generation, nb_check_pos_point
     nb_generation += 1
 
@@ -123,7 +145,8 @@ def generate_children(node: Node):
                 already_done_node[node.generation] = [child.points]
 
             node.add_child(child)
-            generate_children(child)
+            print("add work", flush=True)
+            queue.put(child)
 
 
 def parcours_largeur(noeud):
@@ -156,7 +179,18 @@ def get_points(grid_size: int) -> list:
             base_grid.append(line)
 
         root = Node(size=grid_size_to_use, grid=base_grid)
-        generate_children(root)
+
+        queue = Queue()
+        # start the consumer process
+        consumer_process = Process(target=consumer, args=(queue,))
+        consumer_process.start()
+        # start the producer process
+        producer_process = Process(
+            target=generate_children, args=(queue, root))
+        producer_process.start()
+        # wait for all processes to finish
+        producer_process.join()
+        consumer_process.join()
 
     print("finish generating childs")
     print("getting leafs")
