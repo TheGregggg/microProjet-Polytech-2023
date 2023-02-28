@@ -2,6 +2,7 @@ import get_points_1
 import get_points_2
 import get_points_3
 import get_points_4
+import get_points_5
 
 import time
 
@@ -13,7 +14,10 @@ def benchmark_module(size: int, module, n_times: int):
         result = module.get_points(size)
         end_time = time.time()
         times.append(end_time-start_time)
-        module.already_done_node = []
+        if module.__name__ == "get_points_5":
+            module.already_done_node = {}
+        else:
+            module.already_done_node = []
 
     moyenne = 0
     for d_time in times:
@@ -38,5 +42,5 @@ def run_benchmarks(list_modules, list_sizes, repeats=1):
 
 if __name__ == "__main__":
     results = run_benchmarks(
-        [get_points_1, get_points_2, get_points_3, get_points_4], [3], 10)
+        [get_points_4, get_points_5], [4], 1)
     print(results)
