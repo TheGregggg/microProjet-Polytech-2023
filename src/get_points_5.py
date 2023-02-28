@@ -51,6 +51,9 @@ def generate_children(node: Node):
     global nb_generation, nb_check_pos_point
     nb_generation += 1
 
+    # print(
+    #     f"Current generation : {node.generation} | total generation : {nb_generation}")
+
     for i in range(node.size + 1):
 
         allowed_y = node.grid[i]

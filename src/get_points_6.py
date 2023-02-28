@@ -6,7 +6,8 @@ from time import sleep
 
 def consumer(queue):
     print('Consumer: Running', flush=True)
-    while True:
+    not_stop = True
+    while not_stop:
         # get a unit of work
         try_before_stop = 0
         try:
@@ -17,8 +18,8 @@ def consumer(queue):
             print('Consumer: got nothing, waiting a while...', flush=True)
             sleep(0.1)
             try_before_stop += 1
-            if try_before_stop == 10:
-                break
+            if try_before_stop > 10:
+                not_stop = False
             continue
 
     # all done
