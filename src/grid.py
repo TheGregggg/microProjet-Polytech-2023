@@ -3,10 +3,10 @@ from pygame.locals import *
 
 import time
 
-from get_points import *
+from get_points_simplfied import *
 
 
-grid_size = 2
+grid_size = 5
 grid_color = (20, 20, 20)  # rgb
 draw_lines = False
 
