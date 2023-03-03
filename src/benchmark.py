@@ -1,8 +1,8 @@
-import get_points_1
-import get_points_2
-import get_points_3
-import get_points_4
-import get_points_5
+import old.get_points_1 as get_points_1
+import old.get_points_2 as get_points_2
+import old.get_points_3 as get_points_3
+import old.get_points_4 as get_points_4
+import get_points
 
 import time
 
@@ -42,5 +42,5 @@ def run_benchmarks(list_modules, list_sizes, repeats=1):
 
 if __name__ == "__main__":
     results = run_benchmarks(
-        [get_points_1, get_points_2, get_points_3, get_points_4, get_points_5], [3], 10)
+        [get_points_1, get_points_2, get_points_3, get_points_4, get_points], [3], 10)
     print(results)

@@ -10,3 +10,6 @@ Dans un carré de NxN points, on cherche à placer le plus de points possible su
 On pourra aussi calculer la même chose pour le même nombre de points disposés au hasard
 
 ![](./exemple.png)
+
+Researches :
+https://en.wikipedia.org/wiki/No-three-in-line_problem
