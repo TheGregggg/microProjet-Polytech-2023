@@ -2,7 +2,7 @@
 def rotating_points(grid_size, points):
     points_to_return = []
     for point in points:
-        new_point = (grid_size-point[1], point[0])
+        new_point = (grid_size-1-point[1], point[0])
         points_to_return.append(new_point)
     return points_to_return
 
@@ -10,7 +10,7 @@ def rotating_points(grid_size, points):
 def symetrie_horizontal(grid_size, points):
     points_to_return = []
     for point in points:
-        new_point = (grid_size - point[0], point[1])
+        new_point = (grid_size-1 - point[0], point[1])
         points_to_return.append(new_point)
     return points_to_return
 
@@ -18,7 +18,7 @@ def symetrie_horizontal(grid_size, points):
 def symetrie_vertical(grid_size, points):
     points_to_return = []
     for point in points:
-        new_point = (point[0], grid_size - point[1])
+        new_point = (point[0], grid_size-1 - point[1])
         points_to_return.append(new_point)
     return points_to_return
 
@@ -46,7 +46,7 @@ def generate_children(node: Node):
     global should_continue
 
     i = 0
-    while should_continue and i < node.size + 1:
+    while should_continue and i < node.size:
 
         allowed_y = node.grid[i]
 
@@ -62,7 +62,7 @@ def generate_children(node: Node):
                          [], size=node.size, generation=node.generation+1)
             child.points.append((i, j))
 
-            if len(child.points) == (node.size+1)*2:
+            if len(child.points) == (node.size)*2:
                 should_continue = False
                 node.add_child(child)
 
@@ -76,7 +76,7 @@ def generate_children(node: Node):
                 else:
                     a = delta_y/delta_x
                     b = j - a*i
-                    for x in range(node.size + 1):
+                    for x in range(node.size):
                         y_to_remove = a*x + b
                         if y_to_remove == int(y_to_remove) and y_to_remove in new_grid[x]:
                             new_grid[x].remove(y_to_remove)
@@ -153,9 +153,9 @@ def get_points(grid_size: int) -> list:
     base_grid = []
     for grid_size_to_use in range(1, grid_size+1):
         base_grid = []
-        for i in range(grid_size_to_use + 1):
+        for i in range(grid_size_to_use):
             line = []
-            for y in range(grid_size_to_use + 1):
+            for y in range(grid_size_to_use):
                 line.append(y)
             base_grid.append(line)
 
