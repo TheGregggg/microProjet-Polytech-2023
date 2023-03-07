@@ -146,18 +146,23 @@ def parcours_largeur(noeud):
 
 
 def get_points(grid_size: int) -> list:
+    global should_continue
 
     print("generating childs")
 
     base_grid = []
-    for i in range(grid_size + 1):
-        line = []
-        for y in range(grid_size + 1):
-            line.append(y)
-        base_grid.append(line)
+    for grid_size_to_use in range(1, grid_size+1):
+        base_grid = []
+        for i in range(grid_size_to_use + 1):
+            line = []
+            for y in range(grid_size_to_use + 1):
+                line.append(y)
+            base_grid.append(line)
 
-    root = Node(size=grid_size, grid=base_grid)
-    generate_children(root)
+        should_continue = True
+
+        root = Node(size=grid_size_to_use, grid=base_grid)
+        generate_children(root)
 
     print("finish generating childs")
     print("getting leafs")
@@ -178,7 +183,7 @@ def get_points(grid_size: int) -> list:
 
 if __name__ == "__main__":
     result = get_points(4)
-    print(result.points)
+    print(result)
 
 # before caching : grid 2 => 4842 generations
 # after caching : grid 2 => 388 generations
