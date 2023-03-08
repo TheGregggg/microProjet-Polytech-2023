@@ -1,90 +1,157 @@
-from typing import Any
-import math
-import copy
+########################################
+#
+#     Place points on grid of NxN
+#  Algorithm coded by Gregoire Layet
+#  microProjet Polytech 2022 | PEIP 1
+#        all right reserved
+#
+########################################
+
+################################
+#     Typing definition
+################################
+
+Point = tuple[int, int]
+Points = list[Point]
 
 
-def rotating_points(grid_size, points):
+################################
+#     Symmetry functions
+################################
+
+def rotating_points(grid_size: int, points: Points) -> Points:
+    """Rotate all the point by 90 degree to the right. Meant to rotate a complete grid
+
+    Args:
+        grid_size (int): the size of the grid where the points are
+        points (Points): list of the points, list of (x,y) coords
+
+    Returns:
+        Points: list of the new points, rotated by 90 degree
+    """
+
     points_to_return = []
     for point in points:
-        new_point = (grid_size-point[1], point[0])
+        new_point = (grid_size-1 - point[1], point[0])
         points_to_return.append(new_point)
     return points_to_return
 
 
-def symetrie_horizontal(grid_size, points):
+def horizontal_symmetry(grid_size: int, points: Points) -> Points:
+    """Apply a horizontal symmetry to the points. Meant to be applied on a complete grid
+
+    Args:
+        grid_size (int): the size of the grid where the points are
+        points (Points): list of the points, list of (x,y) coords
+
+    Returns:
+        Points: list of the new points, by symmetry
+    """
+
     points_to_return = []
     for point in points:
-        new_point = (grid_size - point[0], point[1])
+        new_point = (grid_size - 1 - point[0], point[1])
         points_to_return.append(new_point)
     return points_to_return
 
 
-def symetrie_vertical(grid_size, points):
+def vertical_symmetry(grid_size: int, points: Points) -> Points:
+    """Apply a vertical symmetry to the points. Meant to be applied on a complete grid
+
+    Args:
+        grid_size (int): the size of the grid where the points are
+        points (Points): list of the points, list of (x,y) coords
+
+    Returns:
+        Points: list of the new points, by symmetry
+    """
+
     points_to_return = []
     for point in points:
-        new_point = (point[0], grid_size - point[1])
+        new_point = (point[0], grid_size-1 - point[1])
         points_to_return.append(new_point)
     return points_to_return
+
+
+################################
+#   Node class and functions
+################################
 
 
 class Node():
-    def __init__(self, points=[], grid: list = [], size=10, generation=0):
+    def __init__(self, points: Points = [], grid: list = [], size: int = 10, generation: int = 0):
         self.points = points
-
-        # list of tuple (a,b) or (0,0,x) if its a vertical line
         self.grid = grid
         self.childrens = []
         self.size = size
         self.generation = generation
 
-    def add_child(self, obj):
-        self.childrens.append(obj)
+    def add_child(self, child: 'Node'):
+        self.childrens.append(child)
 
+
+def breadth_first_search(root: Node) -> list[Node]:
+    """Know as 'Parcours en largeur d'abord' in French, a BFS implementation to retrieve the leafs of the tree
+
+    Args:
+        root (Node): the root of the tree
+
+    Returns:
+        list[Node]: list of the leafs of the tree
+    """
+
+    leafs_to_return = []
+    queue = []
+    queue.append(root)
+    while len(queue) != 0:
+        current_node = queue.pop()
+
+        if len(current_node.childrens) == 0:
+            leafs_to_return.append(current_node)
+        else:
+            for child in current_node.childrens:
+                queue.append(child)
+
+    return leafs_to_return
+
+
+################################
+#  Main algorithm function
+################################
 
 already_done_node = {}
-nb_generation = 0
-
-nb_check_pos_point = 0
 
 
 def generate_children(node: Node):
-    global nb_generation, nb_check_pos_point
-    nb_generation += 1
+    global already_done_node
 
-    # print(
-    #     f"Current generation : {node.generation} | total generation : {nb_generation}")
-
-    for i in range(node.size + 1):
+    for i in range(node.size):
 
         allowed_y = node.grid[i]
 
         for j in allowed_y:
 
             new_grid = [list(line) for line in node.grid]
-            #new_grid = copy.deepcopy(node.grid)
 
-            # generations des nouvelles droites interdites
             for point in node.points:
                 delta_x = i - point[0]
                 delta_y = j - point[1]
 
                 if delta_x == 0:
                     new_grid[i] = []  # remove vertical line
-                    nb_check_pos_point += 1
                 else:
                     a = delta_y/delta_x
                     b = j - a*i
-                    for x in range(node.size + 1):
+                    for x in range(node.size):
                         y_to_remove = a*x + b
                         if y_to_remove == int(y_to_remove) and y_to_remove in new_grid[x]:
                             new_grid[x].remove(y_to_remove)
-                        nb_check_pos_point += 1
 
             if j in new_grid[i]:
                 new_grid[i].remove(j)
 
             child = Node([value for value in node.points],
-                         new_grid, size=node.size, generation=node.generation+1)
+                         new_grid, size=node.size, generation=node.generation)
             child.points.append((i, j))
 
             child.points = sorted(
@@ -107,14 +174,14 @@ def generate_children(node: Node):
                 if not pass_rotation_tests:
                     continue
 
-                sym_hori = symetrie_horizontal(node.size, child.points)
+                sym_hori = horizontal_symmetry(node.size, child.points)
                 sym_hori = sorted(
                     sym_hori, key=lambda tup: (tup[0], tup[1]))
 
                 if sym_hori in already_done_node[node.generation]:
                     continue
 
-                sym_vert = symetrie_vertical(node.size, child.points)
+                sym_vert = vertical_symmetry(node.size, child.points)
                 sym_vert = sorted(
                     sym_vert, key=lambda tup: (tup[0], tup[1]))
 
@@ -129,44 +196,27 @@ def generate_children(node: Node):
             generate_children(child)
 
 
-def parcours_largeur(noeud):
-    to_return = []
-    file = []
-    file.append(noeud)
-    while len(file) != 0:
-        noeud_en_cours = file.pop()
-        if len(noeud_en_cours.childrens) == 0:
-            to_return.append(noeud_en_cours)
-        else:
-            for child in noeud_en_cours.childrens:
-                file.append(child)
+def get_points(grid_size: int) -> list[list[Points]]:
 
-    return to_return
+    # To improve perfs, we generate the grid from 1x1 to NxN beacause when a grid is generated, its added to the already_done_grids variable.
+    # What improve perfs is that the best solution of a NxN grid can't be a solution of a N-1XN-1 grid,
+    # base on that we calculate all the grid before to remove a lot a useless grid in the NxN one.
 
-
-def get_points(grid_size: int) -> list:
-    global nb_generation
-    nb_generation = 0
-
-    print("generating childs")
-
+    # generating childs from grid 1 to grid_size
     for grid_size_to_use in range(1, grid_size+1):
         base_grid = []
-        for i in range(grid_size_to_use + 1):
+        for i in range(grid_size_to_use):
             line = []
-            for y in range(grid_size_to_use + 1):
+            for y in range(grid_size_to_use):
                 line.append(y)
             base_grid.append(line)
 
         root = Node(size=grid_size_to_use, grid=base_grid)
         generate_children(root)
 
-    print("finish generating childs")
-    print("getting leafs")
+    leafs = breadth_first_search(root)
 
-    leafs = parcours_largeur(root)
-
-    print("getting best leaf")
+    # retrieve the best leafs, the ones with the most among of points
 
     best_leafs = [leafs[0]]
     for leaf in leafs:
@@ -179,12 +229,4 @@ def get_points(grid_size: int) -> list:
 
 
 if __name__ == "__main__":
-    result = get_points(4)
-    print(result.points)
-    print(f"You generate {nb_generation} childs")
-    print(nb_check_pos_point)
-
-# before caching : grid 2 => 4842 generations
-# after caching : grid 2 => 388 generations
-# after symetrie and rotation checking : grid = 2 => 96 generations
-# after fixing precedent implementation : grid 2 => 54 generations | grid 3 => 668 generations | grid 4 => 12115 generations
+    result = get_points(3)

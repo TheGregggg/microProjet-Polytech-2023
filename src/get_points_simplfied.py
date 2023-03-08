@@ -43,7 +43,9 @@ should_continue = True
 
 
 def generate_children(node: Node):
-    global should_continue
+    global should_continue, already_done_node
+
+    #print("oui", node.size)
 
     i = 0
     while should_continue and i < node.size:
@@ -159,6 +161,8 @@ def get_points(grid_size: int) -> list:
                 line.append(y)
             base_grid.append(line)
 
+        print(f"generate grid {grid_size_to_use}")
+
         should_continue = True
 
         root = Node(size=grid_size_to_use, grid=base_grid)
@@ -183,7 +187,7 @@ def get_points(grid_size: int) -> list:
 
 if __name__ == "__main__":
     result = get_points(4)
-    print(result)
+    print(result[0].points)
 
 # before caching : grid 2 => 4842 generations
 # after caching : grid 2 => 388 generations
