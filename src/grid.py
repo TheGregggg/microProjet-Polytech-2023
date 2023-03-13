@@ -1,3 +1,10 @@
+"""
+Generate a cool pygame window so see NxN grid.
+Can rotate with space and switch solutions with left arrow.
+
+Gregoire Layet | 2023 | microProjet Polytech Nantes PEIP
+"""
+
 import pygame
 from pygame.locals import *
 

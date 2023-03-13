@@ -229,4 +229,4 @@ def get_points(grid_size: int) -> list[list[Points]]:
 
 
 if __name__ == "__main__":
-    result = get_points(3)
+    result = get_points(5)

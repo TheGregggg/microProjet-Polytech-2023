@@ -133,18 +133,19 @@ def generate_children(node: Node):
 
 
 def parcours_largeur(noeud):
-    to_return = []
+    best = noeud
     file = []
     file.append(noeud)
     while len(file) != 0:
         noeud_en_cours = file.pop()
         if len(noeud_en_cours.childrens) == 0:
-            to_return.append(noeud_en_cours)
+            if len(noeud_en_cours.points) > len(best.points):
+                best = noeud_en_cours
         else:
             for child in noeud_en_cours.childrens:
                 file.append(child)
 
-    return to_return
+    return best
 
 
 def get_points(grid_size: int) -> list:
@@ -169,24 +170,15 @@ def get_points(grid_size: int) -> list:
         generate_children(root)
 
     print("finish generating childs")
-    print("getting leafs")
+    print("getting leafs and best leafs")
 
-    leafs = parcours_largeur(root)
+    best_leaf = parcours_largeur(root)
 
-    print("getting best leaf")
-
-    best_leafs = [leafs[0]]
-    for leaf in leafs:
-        if len(leaf.points) > len(best_leafs[0].points):
-            best_leafs = [leaf]
-        elif(len(leaf.points) == len(best_leafs[0].points)):
-            best_leafs.append(leaf)
-
-    return best_leafs
+    return [best_leaf]
 
 
 if __name__ == "__main__":
-    result = get_points(4)
+    result = get_points(6)
     print(result[0].points)
 
 # before caching : grid 2 => 4842 generations

@@ -39,7 +39,7 @@ def calc_triangle(list_points):
     surfaces_lists.sort()
     surfaces = {i: surfaces[i] for i in surfaces_lists}
 
-    return surfaces
+    return {'surfaces': surfaces, 'triangles': already_done}
 
 
 if __name__ == "__main__":
