@@ -3,9 +3,9 @@ from pygame.locals import *
 
 import time
 
-from get_points import *
+from get_points_simplfied import *
 
-grid_size = 4
+grid_size = 3
 grid_color = (20, 20, 20)  # rgb
 
 start_time = time.time()
