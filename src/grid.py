@@ -10,9 +10,9 @@ from pygame.locals import *
 
 import time
 
-from get_points_simplfied import *
+from get_points import *
 
-grid_size = 3
+grid_size = 5
 grid_color = (20, 20, 20)  # rgb
 
 start_time = time.time()
@@ -107,6 +107,14 @@ while running:
         result_indice += 1
         if result_indice == len(results):
             result_indice = 0
+
+        draw()
+
+    if pressed[pygame.K_LEFT] and input_repeat_time < 0:
+        input_repeat_time = 0.2*1000
+        result_indice -= 1
+        if result_indice == -1:
+            result_indice = len(results)-1
 
         draw()
 
