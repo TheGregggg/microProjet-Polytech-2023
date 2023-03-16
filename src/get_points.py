@@ -158,34 +158,34 @@ def generate_children(node: Node):
                 child.points, key=lambda tup: (tup[0], tup[1]))
 
             if node.generation in already_done_node:
-                if child.points in already_done_node[node.generation]:
-                    continue
-
                 pass_rotation_tests = True
                 rotation = child.points
-                for a in range(3):
-                    rotation = rotating_points(node.size, rotation)
-                    rotation = sorted(
-                        rotation, key=lambda tup: (tup[0], tup[1]))
+                for a in range(4):
                     if rotation in already_done_node[node.generation]:
                         pass_rotation_tests = False
                         break
 
+                    sym_hori = horizontal_symmetry(node.size, rotation)
+                    sym_hori = sorted(
+                        sym_hori, key=lambda tup: (tup[0], tup[1]))
+
+                    if sym_hori != rotation and sym_hori in already_done_node[node.generation]:
+                        pass_rotation_tests = False
+                        break
+
+                    sym_vert = vertical_symmetry(node.size, rotation)
+                    sym_vert = sorted(
+                        sym_vert, key=lambda tup: (tup[0], tup[1]))
+
+                    if sym_vert != rotation and sym_vert in already_done_node[node.generation]:
+                        pass_rotation_tests = False
+                        break
+
+                    rotation = rotating_points(node.size, rotation)
+                    rotation = sorted(
+                        rotation, key=lambda tup: (tup[0], tup[1]))
+
                 if not pass_rotation_tests:
-                    continue
-
-                sym_hori = horizontal_symmetry(node.size, child.points)
-                sym_hori = sorted(
-                    sym_hori, key=lambda tup: (tup[0], tup[1]))
-
-                if sym_hori in already_done_node[node.generation]:
-                    continue
-
-                sym_vert = vertical_symmetry(node.size, child.points)
-                sym_vert = sorted(
-                    sym_vert, key=lambda tup: (tup[0], tup[1]))
-
-                if sym_vert in already_done_node[node.generation]:
                     continue
 
                 already_done_node[node.generation].append(child.points)
@@ -230,3 +230,4 @@ def get_points(grid_size: int) -> list[list[Points]]:
 
 if __name__ == "__main__":
     result = get_points(5)
+    print(result[0].points)
