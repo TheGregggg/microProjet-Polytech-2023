@@ -10,9 +10,9 @@ from pygame.locals import *
 
 import time
 
-from get_points import *
+from rng_grid import get_one_perfect_grid as get_points
 
-grid_size = 5
+grid_size = 12
 grid_color = (20, 20, 20)  # rgb
 
 start_time = time.time()
