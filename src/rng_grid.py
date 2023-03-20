@@ -69,6 +69,7 @@ def generate_random_grid(size):
                 b = j - a*i
                 for x in range(node.size):
                     y_to_remove = a*x + b
+                    print(y_to_remove)
                     if y_to_remove == int(y_to_remove) and y_to_remove in node.grid[x]:
                         node.grid[x].remove(y_to_remove)
 
@@ -94,6 +95,7 @@ def get_best_of_n_grid(grid_size: int, n_grids: int = 10):
 
 def get_one_perfect_grid(grid_size):
     global should_continue
+    should_continue = True
     last_grid = None
     while should_continue:
         last_grid = generate_random_grid(grid_size)
