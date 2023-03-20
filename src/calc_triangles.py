@@ -31,6 +31,10 @@ def calc_triangle(list_points):
                 det = (b[0]-a[0])*(c[1]-a[1]) - (c[0]-a[0])*(b[1]-a[1])
                 triangle_surface = abs(det)/2
 
+                # help trouble shot problemes
+                # if triangle_surface == 0:
+                #     print(a, b, c)
+
                 if triangle_surface in surfaces:
                     surfaces[triangle_surface] += 1
                 else:

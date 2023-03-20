@@ -12,7 +12,7 @@ import time
 
 from rng_grid import get_one_perfect_grid as get_points
 
-grid_size = 12
+grid_size = 8
 grid_color = (20, 20, 20)  # rgb
 
 start_time = time.time()

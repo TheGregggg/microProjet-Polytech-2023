@@ -1,5 +1,6 @@
 import random
 import sys
+import calc_triangles
 
 
 def possible_coord(grid):
@@ -9,6 +10,13 @@ def possible_coord(grid):
             points.append((i, value))
 
     return points
+
+
+def round_nb(nb):
+    rounded = round(nb)
+    if abs(rounded - nb) < 0.000001:
+        return rounded
+    return nb
 
 
 class Node():
@@ -65,11 +73,10 @@ def generate_random_grid(size):
             if delta_x == 0:
                 node.grid[i] = []  # remove vertical line
             else:
-                a = delta_y/delta_x
-                b = j - a*i
                 for x in range(node.size):
-                    y_to_remove = a*x + b
-                    print(y_to_remove)
+                    a = round_nb(delta_y/delta_x)
+                    b = round_nb(j - delta_y/delta_x*i)
+                    y_to_remove = round_nb(a*x + b)
                     if y_to_remove == int(y_to_remove) and y_to_remove in node.grid[x]:
                         node.grid[x].remove(y_to_remove)
 
