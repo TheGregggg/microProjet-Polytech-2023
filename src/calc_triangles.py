@@ -1,4 +1,5 @@
 from get_points_simplfied import *
+import csv
 
 
 def calc_triangle(list_points):
@@ -42,7 +43,20 @@ def calc_triangle(list_points):
     return {'surfaces': surfaces, 'triangles': already_done}
 
 
+def calc_triangle_from_csv_triangles(name):
+    with open(name, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            a = (int(row['x_a']), int(row['y_a']))
+            b = (int(row['x_b']), int(row['y_b']))
+            c = (int(row['x_c']), int(row['y_c']))
+
+            det = (b[0]-a[0])*(c[1]-a[1]) - (c[0]-a[0])*(b[1]-a[1])
+            triangle_surface = abs(det)/2
+
+            if triangle_surface == 0:
+                print(a, b, c)
+
+
 if __name__ == "__main__":
-    result = get_points(6)
-    surfaces = calc_triangle(result[0].points)
-    print(surfaces)
+    calc_triangle_from_csv_triangles("./results/grid 9x9/triangles.csv")

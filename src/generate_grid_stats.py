@@ -13,12 +13,15 @@ import os
 import csv
 
 from get_points_simplfied import *
+import rng_grid
 import calc_triangles
 
 grid_color = (20, 20, 20)  # rgb
+grid_px_size_rel = 0.03
+dot_size_rel = 0.16
 
-height = 1000
-width = 1000
+height = 3000
+width = 3000
 
 pygame.init()
 
@@ -39,22 +42,25 @@ def draw(result):
     else:
         padding_width = width/2 - grid_space*(grid_size-1)/2
 
+    dot_size = int(grid_space*dot_size_rel)
+    grid_px_size = int(grid_space*grid_px_size_rel)
+
     screen.fill((255, 255, 255))
 
     # cols
     for i in range(grid_size):
         pygame.draw.line(screen, grid_color, (i*grid_space + padding_width,
-                         padding_height), (i*grid_space + padding_width, height - padding_height))
+                         padding_height), (i*grid_space + padding_width, height - padding_height), grid_px_size)
 
     # rows
     for i in range(grid_size):
         pygame.draw.line(screen, grid_color, (padding_width, i*grid_space +
-                         padding_height), (width - padding_width, i*grid_space + padding_height))
+                         padding_height), (width - padding_width, i*grid_space + padding_height), grid_px_size)
 
     for point in result.points:
         x, y = point
         pygame.draw.circle(screen, (255, 0, 0),
-                           (x*grid_space + padding_width + 1, y*grid_space + padding_height + 1), 5)
+                           (x*grid_space + padding_width + 1, y*grid_space + padding_height + 1), dot_size)
 
 
 def mkdir_if_not_exist(route: str):
@@ -102,10 +108,10 @@ def generate_results(result, route: str):
             writer.writerow([surface, nb])
 
 
-def generate_grid(grid_size: int):
+def generate_grid(grid_size: int, func_to_use):
     start_time = time.time()
 
-    results = get_points(grid_size)
+    results = func_to_use(grid_size)
 
     end_time = time.time()
 
@@ -127,7 +133,17 @@ def generate_grid(grid_size: int):
 
 
 if __name__ == "__main__":
-    for i in range(6, 8):
-        generate_grid(i)
+    start = 8
+    end = 11  # included
+
+    # get_points or rng_grid.get_one_perfect_grid
+    func_to_use = get_points
+
+    for i in range(start, end+1):
+        if i > 5:
+            func_to_use = rng_grid.get_one_perfect_grid
+        if i > 6:
+            func_to_use = rng_grid.get_one_perfect_grid
+        generate_grid(i, func_to_use)
 
     pygame.quit()
