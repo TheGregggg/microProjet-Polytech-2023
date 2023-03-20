@@ -133,8 +133,8 @@ def generate_grid(grid_size: int, func_to_use):
 
 
 if __name__ == "__main__":
-    start = 8
-    end = 11  # included
+    start = 12
+    end = 20  # included
 
     # get_points or rng_grid.get_one_perfect_grid
     func_to_use = get_points
