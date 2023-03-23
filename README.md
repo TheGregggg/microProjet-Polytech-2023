@@ -13,3 +13,6 @@ On pourra aussi calculer la même chose pour le même nombre de points disposés
 
 Researches :
 https://en.wikipedia.org/wiki/No-three-in-line_problem
+
+Analyse of the results :
+https://uncloud.univ-nantes.fr/index.php/s/kXmgDDzJ5Ws3b4g
