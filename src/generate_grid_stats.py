@@ -86,6 +86,18 @@ def generate_results(result, route: str):
 
     triangles_info = calc_triangles.calc_triangle(result.points)
 
+    average_surface = 0
+    total_surfaces = 0
+    for surface, triangle in triangles_info['surface'].items:
+        total_surfaces += triangle
+        average_surface += surface*triangle
+
+    average_surface = average_surface/total_surfaces
+    average_surface_round = f"{average_surface:.5f}"
+
+    with open(route+"/average_surface.txt", 'w') as time_file:
+        time_file.write(f"{average_surface_round}s")
+
     # generate triangles csv
     with open(route + '/triangles.csv', mode='w') as triangle_file:
         writer = csv.writer(
@@ -133,8 +145,8 @@ def generate_grid(grid_size: int, func_to_use):
 
 
 if __name__ == "__main__":
-    start = 12
-    end = 20  # included
+    start = 3
+    end = 3  # included
 
     # get_points or rng_grid.get_one_perfect_grid
     func_to_use = get_points
