@@ -1,6 +1,6 @@
 import random
 import sys
-import calc_triangles
+import csv
 
 
 def possible_coord(grid):
@@ -104,8 +104,21 @@ def get_one_perfect_grid(grid_size):
     global should_continue
     should_continue = True
     last_grid = None
+    histogram = {}
     while should_continue:
         last_grid = generate_random_grid(grid_size)
+        if len(last_grid.points) not in histogram:
+            histogram[len(last_grid.points)] = 1
+        else:
+            histogram[len(last_grid.points)] += 1
+
+    with open(f'histogram solution grid {grid_size}.csv', mode='w') as histogram_file:
+        writer = csv.writer(
+            histogram_file, delimiter=',', quotechar='"')
+
+        writer.writerow(['points', 'number of grid'])
+        for nb_points, nb_times in histogram.items():
+            writer.writerow([nb_points, nb_times])
 
     return [last_grid]
 
