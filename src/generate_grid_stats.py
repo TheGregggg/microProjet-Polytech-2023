@@ -13,6 +13,7 @@ import os
 import csv
 
 from get_points import *
+import get_points_simplfied
 import rng_grid
 import calc_triangles
 
@@ -145,15 +146,15 @@ def generate_grid(grid_size: int, func_to_use):
 
 
 if __name__ == "__main__":
-    start = 5
-    end = 5  # included
+    start = 6
+    end = 6  # included
 
     # get_points or rng_grid.get_one_perfect_grid
     func_to_use = get_points
 
     for i in range(start, end+1):
         if i > 5:
-            func_to_use = rng_grid.get_one_perfect_grid
+            func_to_use = get_points_simplfied.get_points
         if i > 6:
             func_to_use = rng_grid.get_one_perfect_grid
         generate_grid(i, func_to_use)
