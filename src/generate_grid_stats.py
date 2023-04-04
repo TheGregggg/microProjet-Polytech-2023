@@ -145,18 +145,41 @@ def generate_grid(grid_size: int, func_to_use):
         time_file.write(f"{result_time_round}s")
 
 
+def generate_lot_of_random_grids(grid_size: int, number_of_generations=100):
+    times = []
+    for i in range(number_of_generations):
+        start_time = time.time()
+
+        results = rng_grid.get_one_perfect_grid(grid_size)
+
+        end_time = time.time()
+
+        result_time = end_time-start_time
+        result_time_round = f"{result_time:.4f}"
+        times.append(result_time_round)
+        print(i, str(i/number_of_generations*100) + "%")
+
+    path_result_folder = f"./uncertainty/grid {grid_size}x{grid_size}"
+    mkdir_if_not_exist(path_result_folder)
+    with open(path_result_folder+"/times.csv", 'w') as time_file:
+        time_file.write("times"+"\n")
+        for t in times:
+            time_file.write(t+"\n")
+
+
 if __name__ == "__main__":
-    start = 6
-    end = 6  # included
+    generate_lot_of_random_grids(9, 50)
+    # start = 6
+    # end = 6  # included
 
-    # get_points or rng_grid.get_one_perfect_grid
-    func_to_use = get_points
+    # # get_points or rng_grid.get_one_perfect_grid
+    # func_to_use = get_points
 
-    for i in range(start, end+1):
-        if i > 5:
-            func_to_use = get_points_simplfied.get_points
-        if i > 6:
-            func_to_use = rng_grid.get_one_perfect_grid
-        generate_grid(i, func_to_use)
+    # for i in range(start, end+1):
+    #     if i > 5:
+    #         func_to_use = get_points_simplfied.get_points
+    #     if i > 6:
+    #         func_to_use = rng_grid.get_one_perfect_grid
+    #     generate_grid(i, func_to_use)
 
     pygame.quit()

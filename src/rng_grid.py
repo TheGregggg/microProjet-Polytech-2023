@@ -112,13 +112,13 @@ def get_one_perfect_grid(grid_size):
         else:
             histogram[len(last_grid.points)] += 1
 
-    with open(f'histogram solution grid {grid_size}.csv', mode='w') as histogram_file:
-        writer = csv.writer(
-            histogram_file, delimiter=',', quotechar='"')
+    # with open(f'histogram solution grid {grid_size}.csv', mode='w') as histogram_file:
+    #     writer = csv.writer(
+    #         histogram_file, delimiter=',', quotechar='"')
 
-        writer.writerow(['points', 'number of grid'])
-        for nb_points, nb_times in histogram.items():
-            writer.writerow([nb_points, nb_times])
+    #     writer.writerow(['points', 'number of grid'])
+    #     for nb_points, nb_times in histogram.items():
+    #         writer.writerow([nb_points, nb_times])
 
     return [last_grid]
 
